@@ -28,10 +28,11 @@ def main():
     plt.savefig(os.path.join(input_dir, "loss.png"))
     plt.cla()
 
-    plt.plot(df["pred_gender_acc"], label="accuracy (gender)")
-    plt.plot(df["pred_age_acc"], label="accuracy (age)")
-    plt.plot(df["val_pred_gender_acc"], label="val_accuracy (gender)")
-    plt.plot(df["val_pred_age_acc"], label="val_accuracy (age)")
+    key_acc = "_acc" if "pred_gender_acc" in df.columns else "_accuracy"
+    plt.plot(df["pred_gender" + key_acc], label="accuracy (gender)")
+    plt.plot(df["pred_age" + key_acc], label="accuracy (age)")
+    plt.plot(df["val_pred_gender" + key_acc], label="val_accuracy (gender)")
+    plt.plot(df["val_pred_age" + key_acc], label="val_accuracy (age)")
     plt.xlabel("number of epochs")
     plt.ylabel("accuracy")
     plt.legend()
