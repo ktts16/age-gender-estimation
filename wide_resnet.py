@@ -22,6 +22,8 @@ class WideResNet:
         self._weight_decay = 0.0005
         self._use_bias = False
         self._weight_init = "he_normal"
+        self.age_only = False
+        self.age_only = True
 
         if K.image_data_format() == "channels_first":
             logging.debug("image_dim_ordering = 'th'")
@@ -138,7 +140,11 @@ class WideResNet:
         predictions_a = Dense(units=101, kernel_initializer=self._weight_init, use_bias=self._use_bias,
                               kernel_regularizer=l2(self._weight_decay), activation="softmax",
                               name="pred_age")(flatten)
-        model = Model(inputs=inputs, outputs=[predictions_g, predictions_a])
+        if self.age_only:
+          model_outputs = predictions_a
+        else:
+          model_outputs = [predictions_g, predictions_a]
+        model = Model(inputs=inputs, outputs=model_outputs)
 
         return model
 
